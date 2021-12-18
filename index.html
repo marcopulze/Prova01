@@ -1,0 +1,65 @@
+<html>
+	<head>
+		<title>L2 - Hello Three.js</title>
+		<style>
+		body {
+			font-family: Monospace;
+			background-color: #f0f0f0;
+			margin: 0px;
+			overflow: hidden;
+		}
+		canvas {
+			width: 100%;
+			height: 100%;
+		}
+	</style>
+		<script src="libs/three.js"></script>
+		<script src="libs/stats.min.js"></script>
+	</head>
+	<body>
+
+		<script>
+			var scene, renderer, camera, stats, cube;
+
+			function Start() {   //funzione che crea gli oggetti della scena
+
+				scene = new THREE.Scene();
+				camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+				renderer = new THREE.WebGLRenderer();
+				renderer.setSize( window.innerWidth, window.innerHeight );
+				document.body.appendChild( renderer.domElement );
+
+				var geometry = new THREE.BoxGeometry(1,1,1);
+				var material = new THREE.MeshBasicMaterial( { color: 0x0000ff } );
+				cube = new THREE.Mesh( geometry, material );
+				scene.add( cube );
+
+				camera.position.z = 5;
+				//camera.position.y = 1.5;
+				//camera.position.x = 5;
+
+				//cube.position.z = 2;
+
+				stats = new Stats();            // fornisce le statistiche
+				stats.domElement.style.position = 'absolute';
+				stats.domElement.style.top = '0px';
+				document.body.appendChild( stats.domElement );
+
+			}
+
+			function Update() {   //funzione che viene richiamata 60 volte al secondo (non creare mai oggetti qui)
+
+				requestAnimationFrame(Update);
+				stats.update();									//aggiorno le statistiche
+				cube.rotation.y += 0.05;			//ruoto il cubo (il numero indica la velocità di rotazione, il segno è il verso)
+				//cube.rotation.x -= 0.005;
+				//camera.rotation.y += 0.005;		//ruoto la camera (il numero indica la velocità di rotazione)
+				renderer.render(scene, camera);
+			}
+			//chiamo le due funzioni
+			Start();
+			Update();
+
+		</script>
+	</body>
+</html>
